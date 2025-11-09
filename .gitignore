@@ -8,3 +8,12 @@ wheels/
 
 # Virtual environments
 .venv
+
+# Data
+data/*
+
+# wandb
+wandb/*
+
+# model
+cnn_cat_vs_dog/*
