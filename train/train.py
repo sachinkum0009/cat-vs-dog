@@ -23,7 +23,7 @@ sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 from models.model import CnnModel
 from datasets.dataset import CatDogDataset
 
-EPOCHS = 10
+EPOCHS = 20
 CPU_WORKERS: int = os.cpu_count() or 1
 
 loss_fn = nn.CrossEntropyLoss()
@@ -143,7 +143,7 @@ def train():
 def upload():
     model = CnnModel.from_pretrained("cnn_cat_vs_dog")
     print("model loaded")
-    model.push_to_hub(repo_id="sachinkum0009/cnn_cat_vs_dog")
+    model.push_to_hub(repo_id="sachinkum0009/cnn_cat_vs_dog", branch="dev")
 
 
 if __name__ == "__main__":
