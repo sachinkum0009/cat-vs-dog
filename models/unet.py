@@ -3,10 +3,10 @@ UNet Model implementation
 
 """
 
-
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
+from huggingface_hub import PyTorchModelHubMixin
 
 
 class DoubleConv(nn.Module):
@@ -18,14 +18,14 @@ class DoubleConv(nn.Module):
             nn.ReLU(inplace=True),
             nn.Conv2d(out_channels, out_channels, kernel_size=3, padding=1),
             nn.BatchNorm2d(out_channels),
-            nn.ReLU(inplace=True)
+            nn.ReLU(inplace=True),
         )
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         return self.double_conv(x)
 
 
-class UNet(nn.Module):
+class UNet(nn.Module, PyTorchModelHubMixin):
     def __init__(self, in_channels=3, out_channels=1, features=[64, 128, 256, 512]):
         super().__init__()
         self.encoder = nn.ModuleList()
@@ -38,7 +38,7 @@ class UNet(nn.Module):
             prev_channels = feature
 
         # Bottleneck
-        self.bottleneck = DoubleConv(features[-1], features[-1]*2)
+        self.bottleneck = DoubleConv(features[-1], features[-1] * 2)
 
         # Decoder
         self.upconvs = nn.ModuleList()
